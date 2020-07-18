@@ -1,4 +1,3 @@
-const key = require("./keys");
 const redis = require("redis");
 const keys = require("./keys");
 

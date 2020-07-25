@@ -1,0 +1,19 @@
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t nielsgal/react-test -f ./complex/client/Dockerfile.dev ./complex/client
+script:
+  - docker run -e CI=true nielsgal/react-test npm test
+after_success:
+  - docker build -t nielsgal/multi-client ./complex/client
+  - docker build -t nielsgal/multi-nginx ./complex/nginx
+  - docker build -t nielsgal/multi-server ./complex/server
+  - docker build -t nielsgal/multi-worker ./complex/worker
+
+  - echo "$DOCKER_PASSOWRD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  - docker push nielsgal/multi-client
+  - docker push nielsgal/multi-nginx
+  - docker push nielsgal/multi-server
+  - docker push nielsgal/multi-worker

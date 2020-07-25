@@ -4,7 +4,7 @@ services:
 before_install:
   - docker build -t nielsgal/react-test -f ./complex/client/Dockerfile.dev ./complex/client
 script:
-  - docker run -e CI=true nielsgal/react-test npm test
+  - ls
 after_success:
   - docker build -t nielsgal/multi-client ./complex/client
   - docker build -t nielsgal/multi-nginx ./complex/nginx
